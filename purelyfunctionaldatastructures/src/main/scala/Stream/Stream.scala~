@@ -1,0 +1,5 @@
+package Stream
+
+case class Stream[A, B](f:A, second:B) {
+  lazy val s: B = second
+}
