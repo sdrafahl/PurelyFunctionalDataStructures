@@ -2,7 +2,7 @@ package AmoritizedQueue
 
 import org.scalatest._
 
-class AmoritizedQueueTest extends FunSpec with Matchers with MockFactor {
+class AmoritizedQueueTest extends FunSpec with Matchers {
   describe("AmoritizedQueue") {
 
   }
