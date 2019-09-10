@@ -9,7 +9,7 @@ abstract class FunctionalList {
 }
 
 object FunctionalList {
-  def apply(givenHead: Option[Node] = None, givenTail: Option[Node] = None) = FunctionalList {
+  def apply(givenHead: Option[Node] = None, givenTail: Option[Node] = None): FunctionalList = new FunctionalList {
     val head = givenHead
     val tail = givenTail
     def append(value: Int): FunctionalList = {
@@ -33,7 +33,7 @@ object FunctionalList {
         }
       }
     }
-    override def toString: String = {
+    def toString: String = {
       def nodesToString(node: Node): String = {
         node match {
           case Node(v, None) => "" + v
