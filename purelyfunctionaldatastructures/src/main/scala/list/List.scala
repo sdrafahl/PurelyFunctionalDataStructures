@@ -9,7 +9,7 @@ abstract class FunctionalList {
 }
 
 object FunctionalList {
-  def apply(givenHead: Option[Node] = None, givenTail: Option[Node] = None): FunctionalList = new FunctionalList {
+  def apply(givenHead: Option[Node] = None, givenTail: Option[Node] = None) = FunctionalList {
     val head = givenHead
     val tail = givenTail
     def append(value: Int): FunctionalList = {
