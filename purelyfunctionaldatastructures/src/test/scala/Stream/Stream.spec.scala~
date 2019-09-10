@@ -1,0 +1,9 @@
+package Stream
+
+import org.scalatest._
+
+class StreamQueueTest extends FunSpec with Matchers with MockFactor {
+  describe("Stream") {
+    
+  }
+}
