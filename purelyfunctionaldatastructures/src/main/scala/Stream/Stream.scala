@@ -1,14 +1,13 @@
 package Stream
 
 trait Stream[A] {
-  type T
+  type T = Stream[A]
   val f : Option[A]
   val s : Option[T]
 }
 
 object Stream {
   implicit def apply[A](first:Option[A], second: => Option[Stream[A]]): Stream[A] = new Stream[A] {
-    type T = Stream[A]
     val f = first
     lazy val s = second
   }
