@@ -1,4 +1,4 @@
-package AmoritizedQueue
+/*package AmoritizedQueue
 
 import org.scalatest._
 
@@ -23,6 +23,7 @@ class AmoritizedQueueTest extends FunSpec with Matchers {
       }
 
       describe("Non empty queue") {
+     
       }
     }
 
@@ -34,4 +35,4 @@ class AmoritizedQueueTest extends FunSpec with Matchers {
       }
     }
   }
-}
+}*/

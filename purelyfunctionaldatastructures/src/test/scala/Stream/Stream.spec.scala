@@ -17,9 +17,7 @@ class StreamQueueTest extends FunSpec with Matchers {
         val testVal = Some("first")
         val testStream = Stream(testVal, None)
         val testVal2 = Some("second")
-        val testStream2 = Stream(testVal, Some(testStream))
-
-
+        val testStream2 = Stream(testVal2, Some(testStream))
         assert(testStream2.f == testVal2)
         assert(testStream2.s.get.f == testVal)
       }

@@ -33,7 +33,7 @@ object FunctionalList {
         }
       }
     }
-    def toString: String = {
+   override def toString: String = {
       def nodesToString(node: Node): String = {
         node match {
           case Node(v, None) => "" + v
