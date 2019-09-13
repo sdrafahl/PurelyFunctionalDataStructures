@@ -5,13 +5,13 @@ import Stream._
 abstract class AmoritizedQueue[A] {
   def head : Option[A]
   def tail : AmoritizedQueue[A]
-  def snoc(item: A) : AmoritizedQueue[A] 
+  def snoc(item: A) : AmoritizedQueue[A]
 }
 
 object AmoritizedQueue {
   implicit def apply[A]: AmoritizedQueue[A] = createQueue[A](None, None, 0, 0)
 
-  private def createQueue[A](frontStream: Option[Stream[A]], rearStream: Option[Stream[A]], frontLength: Int, secondLength: Int) : AmoritizedQueue[A] = new AmoritizedQueue[A] {
+  private def createQueue[A](frontStream: Option[Stream[A]], rearStream: Option[Stream[A]], frontLength: Int, reverseLength: Int) : AmoritizedQueue[A] = new AmoritizedQueue[A] {
     def head = frontStream match {
       case None => None
       case Some(stream) => stream.f  
@@ -19,31 +19,36 @@ object AmoritizedQueue {
 
     def tail = frontStream match {
       case None => AmoritizedQueue[A]
+      case Some(stream) =>  {
+        val newFrontStream = stream.s
+        lazy val newQueue = createQueue(newFrontStream, rearStream, frontLength - 1, reverseLength)
+        check(newQueue, frontLength - 1, reverseLength, frStream = newFrontStream)
+      }
     }
+
+    def check(queue: => AmoritizedQueue[A], frontL: Int, rearL: Int, frStream: Option[Stream[A]] = frontStream, reStream: Option[Stream[A]] = rearStream): AmoritizedQueue[A] = if (frontL >= rearL) queue else rotate(frStream, reStream)
+
+    def scons(item: A, second: Option[Stream[A]]) = Stream(Some(item), rearStream)
 
     def snoc(item: A): AmoritizedQueue[A] = {
-      val newRearStream = Stream(Some(item), rearStream)
-      val newQueue = createQueue(frontStream, Some(newRearStream), frontLength, secondLength + 1)
-      if (frontLength == secondLength) newQueue else rotate(newRearStream)
+      val newRearStream = scons(item, rearStream)
+      lazy val newQueue = createQueue(frontStream, Some(newRearStream), frontLength, reverseLength + 1)
+      check(newQueue, frontLength, reverseLength + 1, reStream = Some(newRearStream))
     }
-
-    lazy val frontLength: Int = frontLength
-
-    lazy val reverseLength: Int = secondLength
 
     private[this] def appendToStream(st: Option[Stream[A]], secondSt: Option[Stream[A]]): Option[Stream[A]] = {
       st match {
         case None => secondSt
         case Some(stream) => {
-          Some(Stream(stream.f, appendToStream(st.get.s, secondSt)))
+          Some(Stream(stream.f, appendToStream(stream.s, secondSt)))
         }
       }
     }
 
-    private[this] def rotate(newRearStream: Stream[A]): AmoritizedQueue[A] = {
-      val reversedRearStream = reverseStream(inputStream = Some(newRearStream)).get
-      val newFrontStream = appendToStream(frontStream, Some(reversedRearStream))
-      createQueue(newFrontStream, None, frontLength + secondLength, 0)
+    private[this] def rotate(fStream: Option[Stream[A]], rStream: Option[Stream[A]]): AmoritizedQueue[A] = {
+      val reversedRearStream = reverseStream(inputStream = rStream)
+      val newFrontStream = appendToStream(fStream, reversedRearStream)
+      createQueue(newFrontStream, None, frontLength + reverseLength, 0)
     }
 
     private[this] def reverseStream(inputStream: Option[Stream[A]], result: Option[Stream[A]] = None): Option[Stream[A]] = {
