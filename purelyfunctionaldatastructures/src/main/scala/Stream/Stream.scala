@@ -7,7 +7,7 @@ trait Stream[A] {
 }
 
 object Stream {
-  implicit def apply[A](first:Option[A], second: => Option[Stream[A]]): Stream[A] = new Stream[A] {
+  def apply[A](first:Option[A], second: => Option[Stream[A]]): Stream[A] = new Stream[A] {
     val f = first
     lazy val s = second
   }
