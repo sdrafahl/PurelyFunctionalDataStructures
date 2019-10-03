@@ -15,4 +15,13 @@ trait Tree[A] {
   def insert(item: A) : Tree[A]
 }
 
-object Tree {}
+object Tree {
+  implicit def apply[A](value: Option[A] = None, left: Option[Tree[A]] = None, right: Option[Tree[A]] = None, color: Color = Black) : Tree[A] = new Tree {
+    val right = right
+    val left = left
+    val value = value
+    val color = color
+    def member(item: A) : Boolean = ???
+    def insert(item: A) : Tree[A] = ???
+  }
+}
