@@ -11,6 +11,8 @@ trait Tree[A] {
   val left : Option[T]
   val right : Option[T]
   val color : Color
+  def member(item: A) : Boolean
+  def insert(item: A) : Tree[A]
 }
 
 object Tree {}
