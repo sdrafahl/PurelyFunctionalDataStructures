@@ -7,11 +7,11 @@ import scala.collection.immutable.RedBlackTree
 class RedBlackTreeTest extends FunSpec with Matchers {
   describe("Tree") {
     val testString = "testString"
-    val emptyTestTree = RedBlackTree[String]()
-    val testTree = RedBlackTree[String](value = Some(testString))
+    val emptyTestTree = Tree.RedBlackTree[String]()
+    val testTree = Tree.RedBlackTree[String](value = Some(testString))
 
-    val treeOne = RedBlackTree[String](Some(testString), None, None)
-    val nDepthTree = RedBlackTree[String](Some(testString))
+    val treeOne = Tree.RedBlackTree[String](Some(testString), None, None)
+    val nDepthTree = Tree.RedBlackTree[String](Some(testString))
     it("has the correct default values") {
           emptyTestTree should have (
             'value (None),
@@ -19,6 +19,14 @@ class RedBlackTreeTest extends FunSpec with Matchers {
             'right (None),
             'color (Black)
           )
+    }
+    describe("insert") {
+      describe("Base Case") {
+        it("can work on a single empty node") {
+          val treeWithOneValue = emptyTestTree.insert(testString)
+          assert(treeWithOneValue.value == Some(testString))
+        }
+      }
     }
     describe("member") {
       describe("Base Case") {
@@ -31,14 +39,6 @@ class RedBlackTreeTest extends FunSpec with Matchers {
       }
       describe("Tree with n depth") {
 
-      }
-    }
-
-    describe("insert") {
-      describe("Base Case") {
-        it("can work on a single empty node") {
-          //assert(false)
-        }
       }
     }
   }

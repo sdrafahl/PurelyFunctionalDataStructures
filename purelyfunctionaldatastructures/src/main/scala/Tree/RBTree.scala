@@ -21,6 +21,9 @@ case class RedBlackTree[A](value: Option[A] = None, left: Option[Tree[A]] = None
     case Some(valueOfNode) => item == valueOfNode
     case None => false
   }
-  override def insert(item: A) : Tree[A] = ???
+  override def insert(item: A) : RedBlackTree[A] = {
+    val s = Some(item)
+    Tree.RedBlackTree[A](value = s)
+  }
 }
 
