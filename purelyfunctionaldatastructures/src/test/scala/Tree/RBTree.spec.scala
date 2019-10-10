@@ -1,21 +1,18 @@
 package Tree
 
-import org.scalatest._
 import Color._
+import org.scalatest._
 import scala.collection.immutable.RedBlackTree
 
 class RedBlackTreeTest extends FunSpec with Matchers {
   describe("Tree") {
     val testString = "testString"
-    val emptyTestTree = Tree.RedBlackTree[String]()
-    val emptyTestTreeTwo = Tree.RedBlackTree[String]() 
-    val testTree = Tree.RedBlackTree[String](value = Some(testString))
-
-    val treeOne = Tree.RedBlackTree[String](Some(testString), None, None)
-    val nDepthTree = Tree.RedBlackTree[String](Some(testString))
+    val testString2 = "testString2"
+    val testTree = Tree.RedBlackTree[String](testString)
+    val testTreeTwo = Tree.RedBlackTree[String]("z") 
     it("has the correct default values") {
-          emptyTestTree should have (
-            'value (None),
+          testTree should have (
+            'value (testString),
             'left (None),
             'right (None),
             'color (Black)
@@ -24,19 +21,19 @@ class RedBlackTreeTest extends FunSpec with Matchers {
     describe("insert") {
       describe("Base Case") {
         it("can work on a single empty node") {
-          val treeWithOneValue = emptyTestTree.insert(testString)
-          assert(treeWithOneValue.value == Some(testString))
+          val baseTree = testTree.insert(testString)
+          assert(baseTree.left.get.value == testString)
         }
       }
       describe("n+1 case") {
         describe("can re-balance the tree after adding multiple nodes") {
           it("can reblance tree rotation case 1") {
-            val tree = emptyTestTreeTwo.insert("z").insert("y").insert("x")
+            val tree = testTreeTwo.insert("y").insert("x")
             println("hello world")
             println(tree)
-            assert(tree.value.get == "z")
-            assert(tree.left.get.value.get == "y")
-            assert(tree.right.get.valuep.get == "x") 
+            assert(tree.value == "y")
+            assert(tree.right.get.value == "z")
+            assert(tree.left.get.value == "x") 
           }
         }
       }
@@ -44,7 +41,7 @@ class RedBlackTreeTest extends FunSpec with Matchers {
     describe("member") {
       describe("Base Case") {
         it("can work on a single empty node") {
-          assert(!emptyTestTree.member(testString))
+          assert(!testTree.member("not the test string"))
         }
         it("can work on a single node") {
           assert(testTree.member(testString))
