@@ -41,6 +41,13 @@ class RedBlackTreeTest extends FunSpec with Matchers {
             assert(tree.left.get.value == "a")
             assert(tree.right.get.value == "z")
           }
+
+          it("can reblance tree roation case 3") {
+            val tree = Tree.RedBlackTree[String]("a").insert("m").insert("c")
+            assert(tree.value == "c")
+            assert(tree.left.get.value == "a")
+            assert(tree.right.get.value == "m")
+          }
         }
       }
     }

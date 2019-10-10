@@ -18,17 +18,20 @@ abstract class Tree[A <: Comparable[A]] {
   def insert(item: A) : Tree[A]
 }
 
-case class RedBlackTree[A <: Comparable[A]](value: A, left: Option[RedBlackTree[A]] = None, right: Option[RedBlackTree[A]] = None, color: Color =Black) extends Tree[A] {
+case class RedBlackTree[A <: Comparable[A]](value: A, left: Option[RedBlackTree[A]] = None, right: Option[RedBlackTree[A]] = None, color: Color = Black) extends Tree[A] {
   override def member(item: A) : Boolean = item == value
 
   def balance(color: Color, left: Option[RedBlackTree[A]], right: Option[RedBlackTree[A]], value: A): Option[RedBlackTree[A]] = {
-    left match {
-      case Some(RedBlackTree(valueOfLeftGrandChild, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), gcright, Red)) if color == Black => {
+    (left, right) match {
+      case (Some(RedBlackTree(valueOfLeftGrandChild, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), gcright, Red)), _) if color == Black => {
           Some(RedBlackTree[A](valueOfLeftGrandChild, Some(RedBlackTree[A](valueOfGreatGrandChild, ggcleft, ggcright, Black)), Some(RedBlackTree[A](value, gcright, right, Black)), Red))
       }
-      case Some(RedBlackTree(valueOfLeftGrandChild, gcleft, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), Red)) if color == Black => {
+      case (Some(RedBlackTree(valueOfLeftGrandChild, gcleft, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), Red)), _) if color == Black => {
           Some(RedBlackTree[A](valueOfGreatGrandChild, Some(RedBlackTree[A](valueOfLeftGrandChild, gcleft, ggcleft, Black)), Some(RedBlackTree[A](value, ggcright, right, Black)), Red))
       }
+      case (_ ,Some(RedBlackTree(valueOfLeftGrandChild, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), gcright, Red))) if color == Black => {
+          Some(RedBlackTree[A](valueOfGreatGrandChild, Some(RedBlackTree[A](value, left, ggcleft, Black)), Some(RedBlackTree[A](valueOfLeftGrandChild, ggcright, gcright, Black)), Red))
+      }  
       case _ => {
         Some(RedBlackTree[A](value, left, right, color)) 
       }
@@ -43,8 +46,6 @@ case class RedBlackTree[A <: Comparable[A]](value: A, left: Option[RedBlackTree[
             }
             case Some(RedBlackTree(rootValue, _, _, _)) => {
               if(item.compareTo(rootValue) <= 0) {
-                println(balance(color, ins(node.get.left), right, rootValue))
-                println("right here")
                 balance(node.get.color, ins(node.get.left), node.get.right, rootValue)
               } else {
                 balance(node.get.color, node.get.left, ins(node.get.right), rootValue)
