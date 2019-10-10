@@ -26,6 +26,9 @@ case class RedBlackTree[A <: Comparable[A]](value: A, left: Option[RedBlackTree[
       case Some(RedBlackTree(valueOfLeftGrandChild, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), gcright, Red)) if color == Black => {
           Some(RedBlackTree[A](valueOfLeftGrandChild, Some(RedBlackTree[A](valueOfGreatGrandChild, ggcleft, ggcright, Black)), Some(RedBlackTree[A](value, gcright, right, Black)), Red))
       }
+      case Some(RedBlackTree(valueOfLeftGrandChild, gcleft, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), Red)) if color == Black => {
+          Some(RedBlackTree[A](valueOfGreatGrandChild, Some(RedBlackTree[A](valueOfLeftGrandChild, gcleft, ggcleft, Black)), Some(RedBlackTree[A](value, ggcright, right, Black)), Red))
+      }
       case _ => {
         Some(RedBlackTree[A](value, left, right, color)) 
       }

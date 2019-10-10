@@ -29,11 +29,17 @@ class RedBlackTreeTest extends FunSpec with Matchers {
         describe("can re-balance the tree after adding multiple nodes") {
           it("can reblance tree rotation case 1") {
             val tree = testTreeTwo.insert("y").insert("x")
-            println("hello world")
-            println(tree)
             assert(tree.value == "y")
             assert(tree.right.get.value == "z")
             assert(tree.left.get.value == "x") 
+          }
+
+          it("can reblance tree rotation case 2") {
+            val testTreeThree = Tree.RedBlackTree[String]("z") 
+            val tree = testTreeTwo.insert("a").insert("m")
+            assert(tree.value == "m")
+            assert(tree.left.get.value == "a")
+            assert(tree.right.get.value == "z")
           }
         }
       }
