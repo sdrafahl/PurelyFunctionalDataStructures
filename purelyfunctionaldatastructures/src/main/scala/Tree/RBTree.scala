@@ -19,7 +19,17 @@ abstract class Tree[A <: Comparable[A]] {
 }
 
 case class RedBlackTree[A <: Comparable[A]](value: A, left: Option[RedBlackTree[A]] = None, right: Option[RedBlackTree[A]] = None, color: Color = Black) extends Tree[A] {
-  override def member(item: A) : Boolean = item == value
+  override def member(item: A) : Boolean = {
+    def mem(node: Option[RedBlackTree[A]]): Boolean = {
+      node match {
+        case Some(RedBlackTree(valueOfNode, _, Some(rightBranch), _)) if(item.compareTo(valueOfNode) > 0 ) => mem(Some(rightBranch))
+        case Some(RedBlackTree(valueOfNode, Some(leftBranch), _, _)) if(item.compareTo(valueOfNode) < 0) => mem(Some(leftBranch))
+        case Some(RedBlackTree(valueOfNode, _, _, _)) if(item.compareTo(valueOfNode) == 0) => true
+        case _ => false
+      }
+    }
+    mem(Some(this))
+  }
 
   def balance(color: Color, left: Option[RedBlackTree[A]], right: Option[RedBlackTree[A]], value: A): Option[RedBlackTree[A]] = {
     (left, right) match {

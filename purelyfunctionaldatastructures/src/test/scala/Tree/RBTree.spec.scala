@@ -65,7 +65,12 @@ class RedBlackTreeTest extends FunSpec with Matchers {
         }
       }
       describe("Tree with n depth") {
-
+        it("can work with a tree with multiple paths deep") {
+          val tree = Tree.RedBlackTree[String]("a").insert("b").insert("c")
+          assert(tree.member("a"))
+          assert(tree.member("b"))
+          assert(tree.member("c"))
+        }
       }
     }
   }
