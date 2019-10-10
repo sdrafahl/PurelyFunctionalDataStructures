@@ -7,9 +7,7 @@ import scala.collection.immutable.RedBlackTree
 class RedBlackTreeTest extends FunSpec with Matchers {
   describe("Tree") {
     val testString = "testString"
-    val testString2 = "testString2"
     val testTree = Tree.RedBlackTree[String](testString)
-    val testTreeTwo = Tree.RedBlackTree[String]("z") 
     it("has the correct default values") {
           testTree should have (
             'value (testString),
@@ -28,15 +26,14 @@ class RedBlackTreeTest extends FunSpec with Matchers {
       describe("n+1 case") {
         describe("can re-balance the tree after adding multiple nodes") {
           it("can reblance tree rotation case 1") {
-            val tree = testTreeTwo.insert("y").insert("x")
+            val tree = Tree.RedBlackTree[String]("z").insert("y").insert("x")
             assert(tree.value == "y")
             assert(tree.right.get.value == "z")
             assert(tree.left.get.value == "x") 
           }
 
           it("can reblance tree rotation case 2") {
-            val testTreeThree = Tree.RedBlackTree[String]("z") 
-            val tree = testTreeTwo.insert("a").insert("m")
+            val tree = Tree.RedBlackTree[String]("z").insert("a").insert("m") 
             assert(tree.value == "m")
             assert(tree.left.get.value == "a")
             assert(tree.right.get.value == "z")
