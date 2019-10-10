@@ -29,9 +29,12 @@ case class RedBlackTree[A <: Comparable[A]](value: A, left: Option[RedBlackTree[
       case (Some(RedBlackTree(valueOfLeftGrandChild, gcleft, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), Red)), _) if color == Black => {
           Some(RedBlackTree[A](valueOfGreatGrandChild, Some(RedBlackTree[A](valueOfLeftGrandChild, gcleft, ggcleft, Black)), Some(RedBlackTree[A](value, ggcright, right, Black)), Red))
       }
-      case (_ ,Some(RedBlackTree(valueOfLeftGrandChild, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), gcright, Red))) if color == Black => {
-          Some(RedBlackTree[A](valueOfGreatGrandChild, Some(RedBlackTree[A](value, left, ggcleft, Black)), Some(RedBlackTree[A](valueOfLeftGrandChild, ggcright, gcright, Black)), Red))
-      }  
+      case (_ ,Some(RedBlackTree(valueOfRightGrandChild, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), gcright, Red))) if color == Black => {
+          Some(RedBlackTree[A](valueOfGreatGrandChild, Some(RedBlackTree[A](value, left, ggcleft, Black)), Some(RedBlackTree[A](valueOfRightGrandChild, ggcright, gcright, Black)), Red))
+      }
+      case (_ ,Some(RedBlackTree(valueOfRightGrandChild, gcleft, Some(RedBlackTree(valueOfGreatGrandChild: A, ggcleft, ggcright, Red)), Red))) if color == Black => {
+          Some(RedBlackTree[A](valueOfRightGrandChild, Some(RedBlackTree[A](value, left, gcleft, Black)), Some(RedBlackTree[A](valueOfGreatGrandChild, ggcleft, ggcright, Black)), Red))
+      }
       case _ => {
         Some(RedBlackTree[A](value, left, right, color)) 
       }
